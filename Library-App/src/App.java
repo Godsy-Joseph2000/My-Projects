@@ -76,11 +76,27 @@ public class App {
             return;
         }
 
-        if (!foundBook.isBorrowed()) {
-            foundBook.setBorrowed(true);
-            System.out.println("Book borrowed successfully.");
-        } else {
+        if (foundBook.isBorrowed()) {
             System.out.println("Book is already borrowed.");
+            return;
+        } else {
+            System.out.println("enter user name to borrow book");
+            String userName = sc.nextLine();
+            User foundUser = null;
+            for(User user:library.getUsers()){
+                if (user.getUserName().equalsIgnoreCase(userName)) {
+                    foundUser = user;
+                }
+            if (foundUser == null) {
+                System.out.println("user not found , please add user first");
+                return;
+            }
+            foundBook.setBorrowed(true);
+            foundBook.setUser(foundUser);
+            foundUser.getBooks().add(foundBook);
+            System.out.println("book borrowed successfully by the user " + foundUser.getUserName());
+            }
+            
         }
     }
 
